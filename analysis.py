@@ -23,7 +23,15 @@ def analyze_video(
     os.makedirs("outputs", exist_ok=True)
     base_name = os.path.splitext(os.path.basename(input_path))[0]
     out_video_path = os.path.join("outputs", f"{base_name}_annotated.mp4")
-    fourcc = cv2.VideoWriter_fourcc(*"mp4v")
+# Try multiple codecs for compatibility
+    fourcc_options = ["mp4v", "MJPG", "DIVX"]
+    fourcc = None
+    for codec in fourcc_options:
+        fourcc = cv2.VideoWriter_fourcc(*codec)
+        if fourcc != -1:
+            break
+    if fourcc == -1:
+        raise RuntimeError("No compatible video codec found")
     out = cv2.VideoWriter(out_video_path, fourcc, original_fps / fps_sample, (width, height))
 
     timestamps, counts = [], []
@@ -72,7 +80,7 @@ def analyze_video(
                 cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
                 cv2.putText(
                     frame,
-                    f"ID {int(tid)}",
+                    f"ID {int(float(tid))}",
                     (int(x1), int(y1) - 5),
                     cv2.FONT_HERSHEY_SIMPLEX,
                     0.5,
@@ -103,6 +111,7 @@ def analyze_video(
             (0, 0, 255),
             2,
         )
+                    cv2.LINE_AA,
 
         out.write(frame)
         timestamps.append(float(timestamp))
