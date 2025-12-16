@@ -100,11 +100,6 @@ If you have your own poultry farm video:
 | CPU      | 5-15 FPS      | Default, no GPU needed |
 | GPU      | 20-60 FPS     | Requires CUDA + torch |
 
-## Bug Fixes Applied
-
-✅ **Bug #1**: Added missing `cv2.LINE_AA` parameter for smooth text rendering
-✅ **Bug #2**: Fixed unsafe integer conversion with `int(float(tid))` fallback
-✅ **Bug #3**: Added codec fallback (mp4v → MJPG → DIVX) for cross-platform compatibility
 
 ## JSON Output Schema
 
@@ -137,7 +132,7 @@ Sample response structure:
 
 ## Next Steps After Testing
 
-1. Download real poultry farm video from provided Google Form link
+1. Take poultry farm video 
 2. Replace `data/sample_test.mp4` with real video
 3. Run analysis on real data
 4. Verify accuracy by visual inspection of annotated output video
